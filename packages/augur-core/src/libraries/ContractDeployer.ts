@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { ethers } from 'ethers';
 import { BigNumber } from 'bignumber.js';
 import { readFile } from 'async-file';
@@ -367,6 +368,9 @@ Deploying to: ${env}
         console.log('Uploading augur...');
         const contract = await this.contracts.get('Augur');
         const address = await this.construct(contract, []);
+        const contract_address_env = "CONTRACT_ADDRESS=" + address;
+        console.log(contract_address_env);
+        fs.writeFileSync("./contract_address.env", contract_address_env);
         const augur = new Augur(this.dependencies, address);
         const ownerAddress = await augur.uploader_();
         contract.address = address;
